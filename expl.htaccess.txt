@@ -1,0 +1,27 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+RewriteRule ^ /%1 [NC,L,R]
+
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1  [NC,L,R]
+
+
+
+RewriteEngine on: Cette ligne active le module de réécriture d'URL d'Apache. Cela permet d'activer la fonctionnalité de réécriture des URL dans le fichier .htaccess.
+
+RewriteCond %{REQUEST_FILENAME}.php -f: Cette ligne définit une condition pour la règle de réécriture suivante. %{REQUEST_FILENAME} représente le chemin vers le fichier demandé. Le .php est ajouté à la fin pour vérifier si un fichier avec l'extension .php existe réellement sur le serveur. L'option -f vérifie si le fichier existe en tant que fichier régulier.
+
+RewriteRule ^(.*)$ $1.php [NC,L]: Cette ligne définit la règle de réécriture elle-même. ^ indique le début de la chaîne, (.*) capture tout le reste de l'URL demandée (à l'exception du domaine) et le stocke dans la variable $1. $1.php réécrit l'URL en ajoutant l'extension .php à la fin. [NC,L] sont des drapeaux de règle : [NC] signifie "non sensible à la casse" (ne tient pas compte de la casse dans les URL) et [L] signifie "dernière" (arrête le traitement des règles suivantes).
+
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]: Cette ligne définit une nouvelle condition pour une autre règle de réécriture. %{THE_REQUEST} contient la requête HTTP complète envoyée par le client. Elle est utilisée ici pour rechercher une URL avec une extension .php. /([^.]+)\.php est une expression régulière qui capture le nom du fichier sans l'extension .php et sans point dans le nom de fichier. Le résultat de la capture est stocké dans la variable %1.
+
+RewriteRule ^ /%1 [NC,L,R]: Cette ligne définit la règle de réécriture correspondante à la condition précédente. ^ représente le début de la chaîne, et / indique la racine du site. /%1 réécrit l'URL en utilisant le contenu capturé dans la condition précédente (%1). [NC,L,R] sont des drapeaux de règle : [NC] signifie "non sensible à la casse", [L] signifie "dernière" (arrête le traitement des règles suivantes) et [R] signifie "redirection" (envoie une réponse de redirection au client).
+
+En résumé, ces lignes de code activent le module de réécriture d'URL d'Apache et définissent des règles de réécriture pour gérer les URL avec les extensions .php et .html. Elles permettent de réécrire les URL sans ces extensions pour ajouter les extensions appropriées et de rediriger les requêtes directes avec des extensions vers des URL sans extension. Cela peut améliorer la convivialité des URL pour les utilisateurs et le référencement des moteurs de recherche.
